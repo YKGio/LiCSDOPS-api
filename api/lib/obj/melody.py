@@ -4,11 +4,10 @@ import mido as md
 import ddsp.training.metrics
 
 class Melody:
-    def __init__(self, midi, cough_np, sr):
+    def __init__(self, midi, cough):
         # Constructor
         self.midi = midi
-        self.cough_np = cough_np
-        self.sr = sr
+        self.cough_np, self.sr = cough
         self.notes = self.__midi_parse()
         self.tpb = self.midi.ticks_per_beat
         self.tempo = self.__get_midi_tempo()

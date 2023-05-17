@@ -2,13 +2,11 @@ import librosa as rosa
 from pydub import AudioSegment as pa
 import os
 import numpy as np
-import soundfile as sf
 import mido
 
 # costum imports
-import api.lib.config as cf
-from api.lib.melody import Melody
-from api.lib.drum import Drum
+from api.lib.obj.melody import Melody
+from api.lib.obj.drum import Drum
 
 class Music:
     def __init__(self, cough_dir:str, midi_path:str):
@@ -24,11 +22,10 @@ class Music:
     def generate(self):
         # Generate the music
 
-        # generate the melody
-        cough, sr = self.__random_choose_cough()
-        melody = Melody(self.midi_track_melody, cough, sr)
-        bass = Melody(self.midi_track_bass, cough, sr)
-        drum = Drum(self.midi_track_drum, cough, sr)
+        # generate the melody, bass and drum
+        melody = Melody(self.midi_track_melody, self.__random_choose_cough())
+        bass = Melody(self.midi_track_bass, self.__random_choose_cough())
+        drum = Drum(self.midi_track_drum, self.__random_choose_cough())
 
 
     def __random_choose_cough(self):

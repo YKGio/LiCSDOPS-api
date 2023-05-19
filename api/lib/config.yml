@@ -1,33 +1,29 @@
-AUDIO_DIR: ../medias/audios/
-MIDI_DIR: ../medias/midis/
+AUDIO_DIR: C:/Users/aresr/NTHU/DB/ACADEMIC/LAB/COUGHit-api/api/medias/audios
+MIDI_DIR: C:/Users/aresr/NTHU/DB/ACADEMIC/LAB/COUGHit-api/api/medias/midis
+MIDI_PATH: C:/Users/aresr/NTHU/DB/ACADEMIC/LAB/COUGHit-api/api/medias/audios/coughs/cough2-06.wav
 DRUMSET:
-    - KICK
-    - SNARE
-    - HIHAT
-    - TOM1
-    - TOM2
-KICK:
-    PITCH: 40
-    VOLUMN: 0
-    FADEOUT: 50
-    FILTER: False
-SNARE:
-    PITCH: 80
-    VOLUMN: 0
-    FADEOUT: 50
-    FILTER: False
-HIHAT:
-    PITCH: 60
-    VOLUMN: -3
-    FADEOUT: 20
-    FILTER: True
-TOM1:
-    PITCH: 45
-    VOLUMN: -3
-    FADEOUT: 50
-    FILTER: False
-TOM2:
-    PITCH: 50
-    VOLUMN: -3
-    FADEOUT: 50
-    FILTER: False
+    KICK:
+        PITCH: 40
+        VOLUMN: 0
+        FADEOUT: 50
+        FILTER: False
+    SNARE:
+        PITCH: 80
+        VOLUMN: 0
+        FADEOUT: 50
+        FILTER: False
+    HIHAT:
+        PITCH: 60
+        VOLUMN: -3
+        FADEOUT: 20
+        FILTER: True
+    TOM1:
+        PITCH: 45
+        VOLUMN: -3
+        FADEOUT: 50
+        FILTER: False
+    TOM2:
+        PITCH: 50
+        VOLUMN: -3
+        FADEOUT: 50
+        FILTER: False

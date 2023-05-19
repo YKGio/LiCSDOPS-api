@@ -11,6 +11,7 @@ class DrumSet:
         self.filter = self.params['FILTER']
 
     def __get_params(self):
+        # Get drumset parameters from config file
         config = Config()
         NAME = self.name.upper()
         return config.params[NAME]

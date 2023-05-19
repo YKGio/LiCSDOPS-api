@@ -8,10 +8,11 @@ class Drum:
         # Constructor
         self.midi = midi
         self.cough_np, self.sr = cough
-        self.drumset = self.__generate()
+        self.drumset = self.__create()
 
-    def __generate(self):
+    def __create(self):
+        # Create object for each drum
         drumset = config.params['DRUMSET']
 
-        return list(map(lambda inst: DrumSet(inst), drumset)) # LAST EDIT
+        return list(map(lambda inst: DrumSet(inst), drumset))
 

@@ -1,12 +1,15 @@
 import librosa as rosa
-from pydub import AudioSegment as pa
 import os
 import numpy as np
-import mido
+import mido as md
+import soundfile as sf
+import time
 
 # costum imports
 from api.lib.obj.melody import Melody
 from api.lib.obj.drum import Drum
+from api.lib.config import *
+import api.lib.audio_processing as ap
 
 class Music:
     def __init__(self, cough_dir:str, midi_path:str):
@@ -15,23 +18,45 @@ class Music:
         self.midi_path = midi_path
         self.midi = self.__load_midi()
         self.tpb = self.midi.ticks_per_beat
-        self.midi_track_melody = self.midi.tracks[1]
-        self.midi_track_bass = self.midi.tracks[2]
-        self.midi_track_drum = self.midi.tracks[3]
+        self.tempo = self.__get_midi_tempo()
+        self.notes_melody = self.__midi_parse(self.midi.tracks[1])
+        self.notes_bass = self.__midi_parse(self.midi.tracks[2])
+        self.notes_drum = self.__midi_parse(self.midi.tracks[3])
 
     def generate(self):
         # Generate the music
 
         # generate the melody, bass and drum
-        melody = Melody(self.midi_track_melody, self.__random_choose_cough())
-        bass = Melody(self.midi_track_bass, self.__random_choose_cough())
-        drum = Drum(self.midi_track_drum, self.__random_choose_cough())
+        melody_np = Melody(self.notes_melody, self.random_choose_cough()).generate()
+        bass_np = Melody(self.notes_bass, self.random_choose_cough()).generate()
+        drum_np = Drum(self.notes_drum, self.random_choose_cough()).generate()
+
+        # merge the melody, bass and drum
+        tracks_np = [melody_np, bass_np, drum_np]
+        music_np = self.__merge(tracks_np)
+
+        self.music_np = music_np
+
+        music = MusicWriter(music_np, self.sr)
+
+        return music
+
+    def __merge(self, tracks_np):
+        # Merge the tracks
+        music_np = np.zeros(max([len(track) for track in tracks_np]))
+        for track_np in tracks_np:
+            normalized = ap.normalize_length(track_np, len(music_np))
+            music_np += normalized
 
 
-    def __random_choose_cough(self):
+        return music_np
+
+
+    def random_choose_cough(self):
         # Randomly choose coughs from the coughs directory
         cough_np, sr = self.__load_audio_from(self.cough_dir + '/' + np.random.choice(os.listdir(self.cough_dir)))
 
+        self.sr = sr
         return cough_np, sr
 
     def __load_audio_from(self, path: str, db=0):
@@ -44,7 +69,7 @@ class Music:
 
     def __load_midi(self):
         # Load midi file as mido object
-        return mido.MidiFile(self.midi_path)
+        return md.MidiFile(self.midi_path)
 
     def __volumn_adjust(self, audio_np, db):
         # Scale the amplitude by the given decibels
@@ -53,16 +78,35 @@ class Music:
 
         return audio_np
 
-    def __get_max_db(self, audio_np):
-        # Get the maximum decibels of the audio
-        return rosa.amplitude_to_db(audio_np).max()
+    def __midi_parse(self, midi_track):
+        # parse midi track to notes and ontimes
+        on_time = 0
+        notes = []
+        for msg in midi_track:
+            on_time += msg.time
 
-    def __volumn_normalize(self, audio_np, sr, db=-30):
-        # Normalize the audio to the given decibels
-        before_db = self.__get_max_db(audio_np)
-        bias = db - int(before_db)
+            if msg.type == 'note_on':
+                note = msg.note
+                on_time_second = md.tick2second(on_time, self.tpb, self.tempo)
+                notes.append([note, on_time_second])
 
-        amplitude_ratio = 10**(bias/20)
-        audio_np = audio_np * amplitude_ratio
+        return notes
 
-        return audio_np
+    def __get_midi_tempo(self):
+        # Get the tempo of the midi file
+        for msg in self.midi:
+            if msg.type == 'set_tempo':
+                return msg.tempo
+
+
+class MusicWriter:
+    def __init__(self, music_np, sr):
+        self.music_np = music_np
+        self.sr = sr
+        self.path = OUTPUT_DIR
+
+    def write(self):
+        # Write the music to the output directory
+        # set file name to the current time
+        self.path += str(int(time.time())) + '.wav'
+        sf.write(self.path, self.music_np, self.sr)

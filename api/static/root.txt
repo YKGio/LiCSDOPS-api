@@ -1,0 +1,10 @@
+COUGHit API
+
+-API Endpoint
+--API is available at 'api/'
+
+-GET 'api/coughs'
+--Endpoint to get the list of cough files.
+
+-GET 'audios/coughs/<filename>'
+--Endpoint to get the cough file.

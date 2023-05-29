@@ -6,6 +6,10 @@ def spec(c):
     c.run(f"python api/spec/unit/music_spec.py")
 
 @task
-def testserver(c):
+def startlocal(c):
     c.run("python manage.py runserver")
+
+@task
+def startremote(c):
+    c.run("python manage.py runserver 0.0.0.0:8080")
 

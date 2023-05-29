@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)dwcy%n+k263y4d-1msgu00cv9((a%p30q^9l=s-45+l+m*zy*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -122,3 +122,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = 'C:/Users/DavidLin/NTHU/DB/ACADEMIC/LAB/COUGHit/COUGHit-api/api/medias'
+
+STATIC_DIR = 'C:/Users/DavidLin/NTHU/DB/ACADEMIC/LAB/COUGHit/COUGHit-api/api/static'

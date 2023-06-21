@@ -6,7 +6,7 @@ def spec(c):
     c.run(f"python api/spec/unit/music_spec.py")
 
 @task
-def startlocal(c):
+def rundev(c):
     c.run("python manage.py runserver")
 
 @task

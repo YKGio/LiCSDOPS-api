@@ -8,3 +8,6 @@ COUGHit API
 
 -GET 'audios/coughs/<filename>'
 --Endpoint to get the cough file.
+
+-POST 'api/cough'
+--Endpoint to upload the cough file.

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.http import HttpResponseServerError
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
@@ -57,8 +57,7 @@ def coughs(request):
     return HttpResponse(response_content, content_type='text/plain')
 
 # api/coughs
-# @csrf_exampt
-@ensure_csrf_cookie
+@csrf_exempt
 def cough(request):
     try:
         if request.method == 'POST':

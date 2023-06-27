@@ -10,6 +10,6 @@ def rundev(c):
     c.run("python manage.py runserver")
 
 @task
-def startremote(c):
+def run(c):
     c.run("python manage.py runserver 0.0.0.0:8080")
 

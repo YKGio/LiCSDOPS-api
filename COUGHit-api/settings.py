@@ -126,3 +126,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = './api/medias'
 
 STATIC_DIR = './api/static'
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None

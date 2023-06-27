@@ -6,7 +6,11 @@ from django.shortcuts import render
 from django.conf import settings
 from api.servicies import *
 from django.contrib.sites.shortcuts import get_current_site
+from api import serializers as api_serializers
+import pprint
 import os
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -24,22 +28,7 @@ def root(request):
         return HttpResponseServerError()
 
 # api/auth/authenticate
-# def authenticate(request):
-#     if request.method == 'POST':
-#         try:
-#             username = request.POST['username']
-#             password = request.POST['password']
 
-#             AuthenticateAccount.call(username, password)
-
-#             return HttpResponse('User authenticated successfully', content_type='text/plain')
-
-#         except AuthenticateAccount.AuthenticationError:
-#             print("ERROR AUTHENTICATING USER")
-#             return HttpResponseServerError()
-#         except Exception as e:
-#             print("UNKNOWN SERVER ERROR", e)
-#             return HttpResponseServerError()
 
 
 # api/coughs
@@ -56,23 +45,21 @@ def coughs(request):
 
     return HttpResponse(response_content, content_type='text/plain')
 
-# api/coughs
-@csrf_exempt
-def cough(request):
-    try:
-        if request.method == 'POST':
-            file = request.FILES['file']
+class Cough(APIView):
+    def post(self, request):
+        try:
+            serializer = api_serializers.AudioSerializer(data=request.data)
+
+            if not serializer.is_valid():
+                raise Exception("Invalid data")
+
+            file = serializer.save()
             UploadCoughFile().call(file)
 
             return HttpResponse('Cough file uploaded successfully', content_type='text/plain')
 
-    except UploadCoughFile().UploadFileError:
-        print("ERROR UPLOADING COUGH FILE")
-        return HttpResponseServerError()
-    except Exception as e:
-        print("UNKNOWN SERVER ERROR", e)
-        return HttpResponseServerError()
-    print("Uploading cough file")
-    response = HttpResponse('Uploading cough file', content_type='text/plain')
-    return response
-
+        except UploadCoughFile().UploadFileError:
+            return HttpResponseServerError()
+        except Exception as e:
+            print("UNKNOWN SERVER ERROR", e)
+            return HttpResponseServerError()

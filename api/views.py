@@ -37,15 +37,17 @@ class Coughs(APIView):
         coughs_dir = os.path.join(settings.MEDIA_ROOT, "audios/coughs") # get coughs directory
 
         file_list = [file for file in os.listdir(coughs_dir) if os.path.isfile(os.path.join(coughs_dir, file))] # get all files in coughs_dir
-        link_list = [f'<a href="http://{hostname}/audios/coughs/{file}">{file}</a>' for file in file_list] # create links for each file
+        link_list = [f'http://{hostname}/audios/coughs/{file}' for file in file_list] # create links for each file
+        coughlist = [{'name': file, 'link': link} for file, link in zip(file_list, link_list)] # create a list of dictionaries with name and link for each file
 
-        files_string = '\n'.join(file_list) # serialize links into a string
+        serializer = api_serializers.CoughListSerializer(data=coughlist, many=True) # serialize coughlist
+        if not serializer.is_valid():
+            raise Exception("Invalid data")
 
-        response_content = {
-            'files': files_string
-        }
+        response_data = serializer.validated_data
 
-        return Response(response_content)
+
+        return Response(response_data)
 
 class Cough(APIView):
     def post(self, request):

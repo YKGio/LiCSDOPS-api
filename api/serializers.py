@@ -13,3 +13,7 @@ class AudioSerializer(serializers.Serializer):
         }
 
         return audio
+
+class CoughListSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    link = serializers.URLField()

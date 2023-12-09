@@ -1,2 +1,4 @@
 db.sqlite3
 medias
+.vscode
+__pycache__

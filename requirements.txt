@@ -1,6 +1,6 @@
 ddsp==3.5.0
 magenta==2.1.3
-tensorflow-dataset==4.8.3
+tensorflow-datasets==4.8.3
 django
 librosa
 mido

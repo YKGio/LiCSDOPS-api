@@ -23,7 +23,9 @@ urlpatterns = [
     path('api/admin', admin.site.urls),
     path('', views.root),
     path('api/coughs', views.Coughs.as_view(), name='coughs'),
-    # path('api/cough', views.Cough.as_view(), name='cough')
+    path('api/cough', views.Cough.as_view(), name='cough'),
+    path('api/music/generate', views.MusicGenerate.as_view(), name='music_generate'),
+    path('api/musics', views.Musics.as_view(), name='music'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

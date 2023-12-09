@@ -1,8 +1,10 @@
 ddsp==3.5.0
-Django==4.2
-invoke==2.1.2
-librosa==0.7.2
-mido==1.2.6
-numpy==1.21.6
-scipy==1.7.3
-soundfile==0.11.0
+magenta==2.1.3
+tensorflow-dataset==4.8.3
+django
+librosa
+mido
+numpy
+djangorestframework
+noisereduce
+soundfile

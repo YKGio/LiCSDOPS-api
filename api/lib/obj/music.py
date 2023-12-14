@@ -27,8 +27,11 @@ class Music:
         # Generate the music
 
         # generate the melody, bass and drum
+        print('Generatimg melody...')
         melody_np = Melody(self.notes_melody, self.random_choose_cough()).generate()
+        print('Generating bass...')
         bass_np = Melody(self.notes_bass, self.random_choose_cough()).generate()
+        print('Generating drum...')
         drum_np = Drum(self.notes_drum, self.random_choose_cough()).generate()
 
         # merge the melody, bass and drum
@@ -37,6 +40,7 @@ class Music:
 
         self.music_np = music_np
 
+        print("Writing final music...")
         music = MusicWriter(music_np, self.sr)
 
         return music
@@ -108,5 +112,7 @@ class MusicWriter:
     def write(self):
         # Write the music to the output directory
         # set file name to the current time
-        self.path += str(int(time.time())) + '.wav'
+        current_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+        self.path += f'/{current_time}.wav'
+        print(f'Writing music to {self.path}...')
         sf.write(self.path, self.music_np, self.sr)

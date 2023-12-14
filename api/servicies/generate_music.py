@@ -21,24 +21,25 @@ class GenerateMusic:
         trio_sample_model = "hierdec_trio_16bar"
         temperature = 0.8
 
-        print('Generating samples...')
+        print('Generating MIDI...')
         trio_16_samples = trio_models[trio_sample_model].sample(n=4, length=256, temperature=temperature)
         t = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-        filename = os.path.join(MIDIS_DIR, t + '_%s_sample_.mid' % (trio_sample_model))
+        filename = os.path.join(MIDIS_DIR, t + '_%s_sample_' % (trio_sample_model))
 
-        print('Writing samples...')
+        print('Writing MIDI...')
         try:
             for i, ns in enumerate(trio_16_samples):
                 mm.sequence_proto_to_midi_file(ns, filename + str(i) + '.mid')
 
             return filename
         except Exception as e:
-            print("ERROR GENERATING MUSIC", e)
+            print("ERROR WRITING SAMPLES", e)
             raise self.GenerateMusicError()
 
     def call(self):
         try:
             midi_dir = self.__trio_16bar_generate() + '0.mid'
+            print("MIDI DIR", midi_dir)
             midi_path = os.path.join(MIDIS_DIR, midi_dir)
             music = Music(COUGHS_DIR, midi_path).generate().write()
             return music

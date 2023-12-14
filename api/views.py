@@ -86,10 +86,10 @@ class Musics(APIView):
         current_site = get_current_site(request)
         hostname = current_site.domain # get hostname
 
-        musics_dir = os.path.join(settings.MEDIA_ROOT, "audios") # get musics directory
+        musics_dir = os.path.join(settings.MEDIA_ROOT, "audios/output") # get musics directory
 
         file_list = [file for file in os.listdir(musics_dir) if os.path.isfile(os.path.join(musics_dir, file))] # get all files in musics_dir
-        link_list = [f'http://{hostname}/audios/{file}' for file in file_list] # create links for each file
+        link_list = [f'http://{hostname}/audios/output/{file}' for file in file_list] # create links for each file
         musiclist = [{'name': file, 'link': link} for file, link in zip(file_list, link_list)] # create a list of dictionaries with name and link for each file
 
         serializer = api_serializers.MusicListSerializer(data=musiclist, many=True) # type: ignore # serialize musiclist

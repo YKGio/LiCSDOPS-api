@@ -8,32 +8,41 @@ class Drum:
         self.cough_np, self.sr = cough
         self.set_name = self.__name()
         self.set_sample_np = self.__sample_from_cough()
+        
+    class GenerateDrumError(Exception):
+        def __init__(self):
+            self.message = "Error generating drum"
 
     def generate(self):
         # generate the drum track
-        drum = []
-        for i, note in enumerate(self.notes):
-            # get the note info
-            pitch, ont_time = note
-            _, on_time_next = self.notes[i + 1] if i < len(self.notes) - 1 else (0, 0)
+        try:
+            drum = []
+            for i, note in enumerate(self.notes):
+                # get the note info
+                pitch, ont_time = note
+                _, on_time_next = self.notes[i + 1] if i < len(self.notes) - 1 else (0, 0)
+                
+                # get the drum sample
+                drum_name = DRUM_MAP[pitch]
+                drum_sample_np = self.set_sample_np[drum_name]
+                
+                # get the duration of the note
+                duration_drum_sample_np = len(drum_sample_np)
+                note_duration = int(np.round((on_time_next - ont_time) * self.sr))
 
-            # get the drum sample
-            drum_name = DRUM_MAP[pitch]
-            drum_sample_np = self.set_sample_np[drum_name]
+                if note_duration < duration_drum_sample_np:
+                    drum_sample_np = drum_sample_np[:note_duration]
+                elif note_duration >= duration_drum_sample_np:
+                    silent = np.zeros(note_duration - duration_drum_sample_np)
+                    drum_sample_np = np.concatenate((drum_sample_np, silent))
 
-            # get the duration of the note
-            duration_drum_sample_np = len(drum_sample_np)
-            note_duration = int(np.round((on_time_next - ont_time) * self.sr))
+                drum.append(drum_sample_np)
 
-            if note_duration < duration_drum_sample_np:
-                drum_sample_np = drum_sample_np[:note_duration]
-            elif note_duration >= duration_drum_sample_np:
-                silent = np.zeros(note_duration - duration_drum_sample_np)
-                drum_sample_np = np.concatenate((drum_sample_np, silent))
+            return np.concatenate(drum)
 
-            drum.append(drum_sample_np)
-
-        return np.concatenate(drum)
+        except Exception as e:
+            print("ERROR GENERATING DRUM", e)
+            raise self.GenerateDrumError()
 
     def __name(self):
         # get drumset name

@@ -1,7 +1,11 @@
+import random
 import numpy as np
 import librosa as ls
 import mido as md
+from scipy import rand
 import api.lib.audio_processing as ap
+from api.lib import timbre_transfer
+import api.lib.config as config
 
 
 class Melody:
@@ -14,6 +18,7 @@ class Melody:
         cough_pitch = ap.get_pitch(self.cough_np)
 
         # Map the cough to the midi notes
+        print("Scale Mapping...")
         melody = []
         for i, note in enumerate(self.notes):
             pitch, on_time = note
@@ -33,5 +38,12 @@ class Melody:
 
             melody.append(note)
 
-        return np.concatenate(melody)
+        melody = np.concatenate(melody)
+        
+        inst = random.choice(config.INST_LIST)
+        
+        print("Timbre Transfer...")
+        tt_melody = timbre_transfer.call(melody, inst)
+        
+        return tt_melody
 

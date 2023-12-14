@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-)dwcy%n+k263y4d-1msgu00cv9((a%p30q^9l=s-45+l+m*zy*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -132,5 +132,7 @@ MEDIA_ROOT = './api/medias'
 STATIC_DIR = './api/static'
 
 MAGENTA_MODEL_DIR = os.path.join(STATIC_DIR, 'models/magenta')
+
+DDSP_MODEL_DIR = os.path.join(STATIC_DIR, 'models/ddsp')
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None

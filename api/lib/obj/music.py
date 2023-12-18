@@ -34,6 +34,12 @@ class Music:
         print('Generating drum...')
         drum_np = Drum(self.notes_drum, self.random_choose_cough()).generate()
 
+        # adjust volumn
+        print('Adjusting volumn...')
+        melody_np = ap.volumn_normalize(melody_np, MELODY_VOLUMN)
+        bass_np = ap.volumn_normalize(bass_np, BASS_VOLUMN)
+        drum_np = ap.volumn_normalize(drum_np, DRUM_VOLUMN)
+
         # merge the melody, bass and drum
         tracks_np = [melody_np, bass_np, drum_np]
         music_np = self.__merge(tracks_np)

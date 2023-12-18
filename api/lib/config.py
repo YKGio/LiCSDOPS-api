@@ -6,8 +6,6 @@ COUGHS_DIR = 'medias/audios/coughs'
 MIDIS_DIR = 'medias/midis'
 OUTPUT_DIR = 'medias/audios/output'
 
-
-
 API_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(API_DIR)
 sys.path.append(PROJECT_DIR)
@@ -16,6 +14,10 @@ MIDIS_DIR = os.path.join(API_DIR, MIDIS_DIR)
 OUTPUT_DIR = os.path.join(API_DIR, OUTPUT_DIR)
 
 INST_LIST = ['Flute', 'Saxophone', 'Trumpet', 'Violin']
+
+MELODY_VOLUMN = -10
+BASS_VOLUMN = -10
+DRUM_VOLUMN = -15
 
 PITCH = 'PITCH'
 VOLUMN = 'VOLUMN'

@@ -80,18 +80,10 @@ def auto_tune(f0_midi, tuning_factor, mask_on, amount=0.0, chromatic=False):
 
 
 def call(audio, inst):
-  physical_devices = tf.config.list_physical_devices('GPU') 
-  try: 
-    print(f'USING GPU:', tf.config.list_physical_devices('GPU'))
-    tf.config.experimental.set_memory_growth(physical_devices[0], True) 
-  except: 
-    print("Invalid device or cannot modify virtual devices once initialized.")
-    pass 
-  
   MODEL_DIR = f'{settings.DDSP_MODEL_DIR}/{inst}/'
   if len(audio.shape) == 1:
     audio = audio[np.newaxis, :]
-    
+
   # Setup the session.
   ddsp.spectral_ops.reset_crepe()
 
@@ -144,7 +136,7 @@ def call(audio, inst):
     gin.parse_config(gin_params)
 
 
-  # Trim all input vectors to correct lengths 
+  # Trim all input vectors to correct lengths
   for key in ['f0_hz', 'f0_confidence', 'loudness_db']:
     audio_features[key] = audio_features[key][:time_steps]
   audio_features['audio'] = audio_features['audio'][:, :n_samples]
@@ -177,8 +169,8 @@ def call(audio, inst):
   def shift_f0(audio_features, pitch_shift=0.0):
     """Shift f0 by a number of ocatves."""
     audio_features['f0_hz'] *= 2.0 ** (pitch_shift)
-    audio_features['f0_hz'] = np.clip(audio_features['f0_hz'], 
-                                      0.0, 
+    audio_features['f0_hz'] = np.clip(audio_features['f0_hz'],
+                                      0.0,
                                       librosa.midi_to_hz(110.0))
     return audio_features
 
@@ -213,8 +205,8 @@ def call(audio, inst):
       mask_off = np.logical_not(mask_on)
       loudness_norm[mask_off] -=  quiet * (1.0 - note_on_value[mask_off][:, np.newaxis])
       loudness_norm = np.reshape(loudness_norm, audio_features['loudness_db'].shape)
-      
-      audio_features_mod['loudness_db'] = loudness_norm 
+
+      audio_features_mod['loudness_db'] = loudness_norm
 
       # Auto-tune.
       if autotune:

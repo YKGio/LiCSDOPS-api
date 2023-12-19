@@ -5,7 +5,6 @@ import sys
 import warnings
 warnings.filterwarnings('ignore')
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'COUGHit-api.settings')

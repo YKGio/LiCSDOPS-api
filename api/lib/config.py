@@ -13,7 +13,7 @@ COUGHS_DIR = os.path.join(API_DIR, COUGHS_DIR)
 MIDIS_DIR = os.path.join(API_DIR, MIDIS_DIR)
 OUTPUT_DIR = os.path.join(API_DIR, OUTPUT_DIR)
 
-INST_LIST = ['Flute', 'Saxophone', 'Trumpet', 'Violin']
+INST_LIST = ['Flute', 'Violin']
 
 MELODY_VOLUMN = -10
 BASS_VOLUMN = -10

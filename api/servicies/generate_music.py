@@ -1,4 +1,4 @@
-from api.lib.classes import Music
+from api.lib.classes import Music, Metadata
 from api.lib.config import *
 import magenta.music as mm
 from magenta.models.music_vae import configs
@@ -40,6 +40,7 @@ class GenerateMusic:
         try:
             midi_dir = self.__trio_16bar_generate() + '0.mid'
             print("MIDI DIR", midi_dir)
+            Metadata().write("MIDI DIR: " + midi_dir)
             midi_path = os.path.join(MIDIS_DIR, midi_dir)
             music = Music(COUGHS_DIR, midi_path).generate().write()
             return music
@@ -47,3 +48,4 @@ class GenerateMusic:
         except Exception as e:
             print("ERROR GENERATING MUSIC", e)
             raise self.GenerateMusicError()
+        

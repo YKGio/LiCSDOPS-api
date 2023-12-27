@@ -10,6 +10,7 @@ from api.lib.obj.melody import Melody
 from api.lib.obj.drum import Drum
 from api.lib.config import *
 import api.lib.audio_processing as ap
+from api.lib.obj.metadata import Metadata
 
 class Music:
     def __init__(self, cough_dir:str, midi_path:str):
@@ -64,7 +65,9 @@ class Music:
 
     def random_choose_cough(self):
         # Randomly choose coughs from the coughs directory
-        cough_np, sr = self.__load_audio_from(self.cough_dir + '/' + np.random.choice(os.listdir(self.cough_dir)))
+        cough_dir = self.cough_dir + '/' + np.random.choice(os.listdir(self.cough_dir))
+        Metadata().write("COUGH DIR: " + cough_dir)
+        cough_np, sr = self.__load_audio_from(cough_dir)
 
         self.sr = sr
         return cough_np, sr
@@ -119,6 +122,10 @@ class MusicWriter:
         # Write the music to the output directory
         # set file name to the current time
         current_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-        self.path += f'/{current_time}.wav'
+        self.path += f'/{current_time}'
         print(f'Writing music to {self.path}...')
-        sf.write(self.path, self.music_np, self.sr)
+        sf.write(self.path+'.wav', self.music_np, self.sr)
+        Metadata().move(self.path)
+
+
+        

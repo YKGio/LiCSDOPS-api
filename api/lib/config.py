@@ -5,13 +5,16 @@ import sys
 COUGHS_DIR = 'medias/audios/coughs'
 MIDIS_DIR = 'medias/midis'
 OUTPUT_DIR = 'medias/audios/output'
+OUTPUT_METADATA_DIR = 'medias/audios/output_metadata'
 
 API_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(API_DIR)
 sys.path.append(PROJECT_DIR)
 COUGHS_DIR = os.path.join(API_DIR, COUGHS_DIR)
+COUGHS_HISTORY_DIR = os.path.join(API_DIR, COUGHS_DIR + '_history')
 MIDIS_DIR = os.path.join(API_DIR, MIDIS_DIR)
 OUTPUT_DIR = os.path.join(API_DIR, OUTPUT_DIR)
+OUTPUT_METADATA_DIR = os.path.join(API_DIR, OUTPUT_METADATA_DIR)
 
 INST_LIST = ['Flute', 'Violin']
 

@@ -7,6 +7,7 @@ import time
 import os
 from django.conf import settings
 from api.lib.config import MIDIS_DIR
+import shutil
 
 class GenerateMusic:
     class GenerateMusicError(Exception):
@@ -36,6 +37,11 @@ class GenerateMusic:
             print("ERROR WRITING SAMPLES", e)
             raise self.GenerateMusicError()
 
+    def clear_cough_dir(self):
+        cough_dir = COUGHS_DIR
+        for filename in os.listdir(cough_dir):
+            shutil.move(os.path.join(COUGHS_DIR, filename), COUGHS_HISTORY_DIR)
+
     def call(self):
         try:
             midi_dir = self.__trio_16bar_generate() + '0.mid'
@@ -43,9 +49,10 @@ class GenerateMusic:
             Metadata().write("MIDI DIR: " + midi_dir)
             midi_path = os.path.join(MIDIS_DIR, midi_dir)
             music = Music(COUGHS_DIR, midi_path).generate().write()
+            self.clear_cough_dir()
             return music
 
         except Exception as e:
             print("ERROR GENERATING MUSIC", e)
             raise self.GenerateMusicError()
-        
+

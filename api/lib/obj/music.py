@@ -125,7 +125,6 @@ class MusicWriter:
         self.path += f'/{current_time}'
         print(f'Writing music to {self.path}...')
         sf.write(self.path+'.wav', self.music_np, self.sr)
-        Metadata().move(self.path)
+        Metadata().move(OUTPUT_METADATA_DIR + '/' + current_time)
 
 
-        

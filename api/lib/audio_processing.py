@@ -32,6 +32,10 @@ def pitch_shift(audio_np, sr, pitch):
     bias = pitch - get_pitch(audio_np)
     return ls.effects.pitch_shift(audio_np, sr=sr, n_steps=bias)
 
+def pitch_shift_by(audio_np, sr, bias):
+    # Pitch shift the audio by the given bias
+    return ls.effects.pitch_shift(audio_np, sr=sr, n_steps=bias)
+
 def butter_highpass_filter(data, cutoff, fs, order=5):
     b, a = butter_highpass(cutoff, fs, order=order)
     y = lfilter(b, a, data)
@@ -77,3 +81,7 @@ def normalize_length(audio_np, length):
     silent = np.zeros(length - len(audio_np))
     normalized = np.append(audio_np, silent)
     return normalized
+
+def noise_reduce(audio_np, sr):
+    # noise reduction
+    pass

@@ -12,6 +12,7 @@ PROJECT_DIR = os.path.dirname(API_DIR)
 sys.path.append(PROJECT_DIR)
 COUGHS_DIR = os.path.join(API_DIR, COUGHS_DIR)
 COUGHS_HISTORY_DIR = os.path.join(API_DIR, COUGHS_DIR + '_history')
+COUGHS_MOCK_DIR = os.path.join(API_DIR, COUGHS_DIR + '_mock')
 MIDIS_DIR = os.path.join(API_DIR, MIDIS_DIR)
 OUTPUT_DIR = os.path.join(API_DIR, OUTPUT_DIR)
 OUTPUT_METADATA_DIR = os.path.join(API_DIR, OUTPUT_METADATA_DIR)
@@ -50,7 +51,7 @@ DRUMSET = {
     },
     HIHAT : {
         PITCH : 60,
-        VOLUMN : -3,
+        VOLUMN : -5,
         FADEOUT : 20,
         FILTER : True
     },

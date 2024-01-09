@@ -16,6 +16,7 @@ class Music:
     def __init__(self, cough_dir:str, midi_path:str):
         # Constructor
         self.cough_dir = cough_dir
+        self.cough_mock_dir = COUGHS_MOCK_DIR
         self.midi_path = midi_path
         self.midi = self.__load_midi()
         self.tpb = self.midi.ticks_per_beat
@@ -29,11 +30,11 @@ class Music:
 
         # generate the melody, bass and drum
         print('Generatimg melody...')
-        melody_np = Melody(self.notes_melody, self.random_choose_cough()).generate()
+        melody_np = Melody(self.notes_melody, self.random_choose_cough(mock=True)).generate()
         print('Generating bass...')
         bass_np = Melody(self.notes_bass, self.random_choose_cough()).generate()
         print('Generating drum...')
-        drum_np = Drum(self.notes_drum, self.random_choose_cough()).generate()
+        drum_np = Drum(self.notes_drum, self.random_choose_cough(mock=True)).generate()
 
         # adjust volumn
         print('Adjusting volumn...')
@@ -63,9 +64,12 @@ class Music:
         return music_np
 
 
-    def random_choose_cough(self):
+    def random_choose_cough(self, mock=False):
         # Randomly choose coughs from the coughs directory
-        cough_dir = self.cough_dir + '/' + np.random.choice(os.listdir(self.cough_dir))
+        if mock:
+            cough_dir = self.cough_mock_dir + '/' + np.random.choice(os.listdir(self.cough_mock_dir))
+        else:
+            cough_dir = self.cough_dir + '/' + np.random.choice(os.listdir(self.cough_dir))
         Metadata().write("COUGH DIR: " + cough_dir)
         cough_np, sr = self.__load_audio_from(cough_dir)
 

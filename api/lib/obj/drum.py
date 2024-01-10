@@ -8,7 +8,7 @@ class Drum:
         self.cough_np, self.sr = cough
         self.set_name = self.__name()
         self.set_sample_np = self.__sample_from_cough()
-        
+
     class GenerateDrumError(Exception):
         def __init__(self):
             self.message = "Error generating drum"
@@ -21,11 +21,11 @@ class Drum:
                 # get the note info
                 pitch, ont_time = note
                 _, on_time_next = self.notes[i + 1] if i < len(self.notes) - 1 else (0, 0)
-                
+
                 # get the drum sample
                 drum_name = DRUM_MAP[pitch]
                 drum_sample_np = self.set_sample_np[drum_name]
-                
+
                 # get the duration of the note
                 duration_drum_sample_np = len(drum_sample_np)
                 note_duration = int(np.round((on_time_next - ont_time) * self.sr))

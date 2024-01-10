@@ -1,4 +1,5 @@
 import random
+from networkx import volume
 import numpy as np
 import librosa as ls
 import mido as md
@@ -16,8 +17,6 @@ class Melody:
 
     def generate(self):
         cough_pitch = ap.get_pitch(self.cough_np)
-
-        cough_np = ap.noise_reduce(self.cough_np, self.sr)
 
         # Map the cough to the midi notes
         print("Scale Mapping...")
@@ -41,7 +40,7 @@ class Melody:
             melody.append(note)
 
         melody = np.concatenate(melody)
-
+        melody = ap.noise_reduce(melody, self.sr)
         melody = ap.pitch_shift_by(melody, self.sr, 12)
 
         inst = random.choice(config.INST_LIST)

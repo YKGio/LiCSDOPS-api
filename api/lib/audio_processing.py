@@ -1,6 +1,7 @@
 import ddsp.training.metrics
 import librosa as ls
 import numpy as np
+import noisereduce
 from scipy.signal import butter, lfilter
 
 def get_pitch(audio_np):
@@ -84,4 +85,5 @@ def normalize_length(audio_np, length):
 
 def noise_reduce(audio_np, sr):
     # noise reduction
-    pass
+    reduced_noise = noisereduce.reduce_noise(y=audio_np, sr=sr, thresh_n_mult_nonstationary=2,stationary=False)
+    return reduced_noise

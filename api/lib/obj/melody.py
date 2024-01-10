@@ -39,11 +39,12 @@ class Melody:
             melody.append(note)
 
         melody = np.concatenate(melody)
+        melody = ap.noise_reduce(melody, self.sr)
         melody = ap.pitch_shift_by(melody, self.sr, 12)
-        
+
         inst = random.choice(config.INST_LIST)
         print("Timbre Transfer...")
         tt_melody = timbre_transfer.call(melody, inst)
-        
+
         return tt_melody
 

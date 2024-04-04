@@ -85,5 +85,5 @@ def normalize_length(audio_np, length):
 
 def noise_reduce(audio_np, sr):
     # noise reduction
-    reduced_noise = noisereduce.reduce_noise(y=audio_np, sr=sr, thresh_n_mult_nonstationary=1, stationary=False)
+    reduced_noise = noisereduce.reduce_noise(y=audio_np, sr=sr)
     return reduced_noise

@@ -20,7 +20,7 @@ class GenerateMusic:
         trio_models['hierdec_trio_16bar'] = TrainedModel(hierdec_trio_16bar_config, batch_size=2, checkpoint_dir_or_path=settings.MAGENTA_MODEL_DIR + '/trio_16bar_hierdec.ckpt')
 
         trio_sample_model = "hierdec_trio_16bar"
-        temperature = 0.8
+        temperature = 1
 
         print('Generating MIDI...')
         trio_16_samples = trio_models[trio_sample_model].sample(n=4, length=256, temperature=temperature)

@@ -1,4 +1,4 @@
-# COUGHit API
+# ACTA API
 
 ## Local Testing
 ### Install Dependencies

@@ -1,5 +1,9 @@
 db.sqlite3
-medias
+api/medias/audios/coughs_history/*
+api/medias/audios/output/*
+api/medias/audios/output_metadata/*
+api/medias/midis/*
+output_old
 static
 .vscode
 __pycache__
